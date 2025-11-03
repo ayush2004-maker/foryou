@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be Mine?</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%); /* Loving pink gradient */
+            text-align: center;
+            padding: 50px;
+            color: #333;
+            overflow: hidden; /* For floating hearts */
+            animation: fadeIn 2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        h1 {
+            color: #e91e63;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            animation: slideUp 1s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        img {
+            max-width: 300px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            animation: bounceIn 1.5s ease-out;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        #yesBtn {
+            background: linear-gradient(45deg, #4CAF50, #66BB6A); /* Green gradient */
+            color: white;
+        }
+        #yesBtn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        #noBtn {
+            background: linear-gradient(45deg, #f44336, #e57373); /* Red gradient */
+            color: white;
+        }
+        #noBtn:hover, #noBtn:active {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        /* Floating hearts animation */
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            color: #e91e63;
+            animation: float 6s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+        /* Envelope and letter styles */
+        #envelopeContainer {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background-color: #f8f8f8;
+            border: 2px solid #e91e63;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            animation: openEnvelope 2s ease-in-out forwards;
+        }
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background-color: #e91e63;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            animation: flapOpen 2s ease-in-out forwards;
+        }
+        @keyframes openEnvelope {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        @keyframes flapOpen {
+            0% { transform: rotateX(0deg); }
+            100% { transform: rotateX(-180deg); }
+        }
+        .letter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff 0%, #ffebee 100%);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            opacity: 0;
+            animation: emergeLetter 2s ease-in-out 2s forwards; /* Starts after envelope opens */
+            text-align: center; /* Center the text inside the letter */
+        }
+        @keyframes emergeLetter {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.1); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        .letter h2 {
+            color: #e91e63;
+            font-size: 1.5em;
+        }
+        .letter p {
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts -->
+    <div class="heart" style="left: 10%; animation-delay: 0s;">❤️</div>
+    <div class="heart" style="left: 20%; animation-delay: 1s;">💖</div>
+    <div class="heart" style="left: 30%; animation-delay: 2s;">🌹</div>
+    <div class="heart" style="left: 40%; animation-delay: 3s;">😍</div>
+    <div class="heart" style="left: 50%; animation-delay: 4s;">💕</div>
+    <div class="heart" style="left: 60%; animation-delay: 5s;">🌸</div>
+    <div class="heart" style="left: 70%; animation-delay: 6s;">💘</div>
+    <div class="heart" style="left: 80%; animation-delay: 7s;">🥰</div>
+    <div class="heart" style="left: 90%; animation-delay: 8s;">🌷</div>
+
+    <h1>Will you be mine?? 💕</h1>
+    <p>I have something important to ask you?? 🌹</p>
+    <img src="https://example.com/your-romantic-image.jpg" alt="A romantic image"> <!-- Replace with your image URL -->
+    
+    <button id="yesBtn">Yes! ❤️</button>
+    <button id="noBtn">No</button>
+
+    <!-- Envelope and letter container -->
+    <div id="envelopeContainer">
+        <div class="envelope">
+            <div class="letter">
+                <h2>Thanks a lot! You make me the happiest person alive! ❤️🥰</h2>
+                <p>From the moment I met you, I knew you were special. Being with you feels like the best adventure ever. I promise to cherish every moment, make you laugh, and be there through thick and thin. Let's create beautiful memories together! 💖🌸</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const envelopeContainer = document.getElementById('envelopeContainer');
+
+        const messages = ["Are you sure? 😢", "Don't be silly! 💕", "Think again! 🌹", "Really? 🥺", "Come on, give it a chance! ❤️", "Don't say no yet! 😍"];
+        let messageIndex = 0;
+
+        yesBtn.addEventListener('click', () => {
+            // Hide the proposal elements
+            document.querySelector('h1').style.display = 'none';
+            document.querySelector('p').style.display = 'none';
+            document.querySelector('img').style.display = 'none';
+            document.querySelector('#yesBtn').style.display = 'none';
+            document.querySelector('#noBtn').style.display = 'none';
+            
+            // Show and animate the envelope in the center
+            envelopeContainer.style.display = 'block';
+        });
+
+        // Function to handle No button movement and text change
+        function handleNoInteraction() {
+            // Move the button to a random position
+            const x = Math.random() * (window.innerWidth - 150); // Adjust for button width
+            const y = Math.random() * (window.innerHeight - 60); // Adjust for button height
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+            
+            // Change the button text to the next message
+            noBtn.textContent = messages[messageIndex];
+            messageIndex = (messageIndex + 1) % messages.length; // Cycle through messages
+        }
+
+        // Add event listeners for both desktop and mobile
+        noBtn.addEventListener('mouseover', handleNoInteraction); // Desktop hover
+        noBtn.addEventListener('touchstart', handleNoInteraction); // Mobile touch
+    </script>
+</body>
+</html>
